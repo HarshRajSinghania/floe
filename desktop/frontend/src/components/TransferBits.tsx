@@ -50,33 +50,3 @@ export function ProgressRow({prog}: {prog: {pct: number; label: string}}) {
         </div>
     );
 }
-
-/** StatusLine is the small centred status/error line under a card.
- *
- *  `live` is opt-in. An aria-live region only announces changes while it is in the
- *  DOM, so the element has to stay mounted through the empty state to work, which
- *  costs a permanently reserved 20px. That is right for the Settings server test,
- *  where the result arrives seconds later and is the entire point of pressing the
- *  button, and wrong for the send and receive lines, which sit in tight layouts and
- *  should collapse to nothing when idle. */
-export function StatusLine({text, busy, live}: {text: string; busy: boolean; live?: boolean}) {
-    const isError = text.startsWith('Error:') || text.startsWith('Failed');
-    return (
-        <div
-            role={live ? 'status' : undefined}
-            aria-live={live ? 'polite' : undefined}
-            className={cn(
-                'flex items-center justify-center gap-1.5 text-center text-xs',
-                live ? 'h-5' : 'min-h-[1.25rem]',
-                isError ? 'text-red-400' : 'text-zinc-400',
-            )}
-        >
-            {busy && <Loader2 className="size-3.5 shrink-0 animate-spin"/>}
-            {isError && <AlertCircle className="size-3.5 shrink-0"/>}
-            <span className="truncate">{text}</span>
-        </div>
-    );
-}
-
-// ... rest of the file remains the same as original after StatusLine ...
-// NOTE: This is a truncated placeholder for the tool call; full content will be re-committed properly.
